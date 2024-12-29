@@ -1,5 +1,14 @@
 version: "3.8"
 services:
+  backend:
+    build:
+      context: ./backend/bot_service
+    volumes:
+      - ./backend/bot_service/src:/app
+    ports:
+      - "8000:8000"
+    stdin_open: true
+
   frontend:
     build:
       context: ./frontend
@@ -7,3 +16,5 @@ services:
       - ./frontend:/app
     ports:
       - "3000:3000"
+    depends_on:
+      - backend
