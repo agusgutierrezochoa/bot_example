@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from  "@mui/material/Grid"
-import Item from "@mui/material"
 
 const ChatPrompt = () => {
     const [message, setMessage] = useState("")
     const [chatHistory, setChatHistory] = useState([]);
-    const [promptResponse, setPromptResponse] = useState([]);
 
     const handleSendMessage = async () => {
         if (message.trim()) {
             setMessage("")
 
             try {
+                const response = await fetch("http://localhost:8000/api/messages/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message: message.trim() }),
+                })
+
+                if (!response.ok) {
+                    throw new Error("ERROR")
+                }
+
+                const apiResponse = await response.json()
+
                 const newMessage = { sender: "User", text: message.trim() };
-                const botResponse = { sender: "Chatbot Example", text: message.trim() };
+                const botResponse = { sender: "Chatbot Example", text: apiResponse.message };
 
                 setChatHistory((prev) => [...prev, newMessage, botResponse]);
             } catch(error) {
@@ -28,7 +40,7 @@ const ChatPrompt = () => {
     };
 
     const handleKeyDown = (event) => {
-        if (event.key == "Enter") {
+        if (event.key === "Enter") {
             handleSendMessage();
         }
     };
