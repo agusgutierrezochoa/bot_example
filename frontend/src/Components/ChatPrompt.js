@@ -11,7 +11,7 @@ const ChatPrompt = () => {
             setMessage("")
 
             try {
-                const response = await fetch("http://localhost:8000/api/messages/", {
+                const response = await fetch("http://localhost:8000/v1/conversation/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
