@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from schemas.create_message_schemas import BotResponse, UserMessage
+from core import settings
+from api.v1_0_0 import bot_api
 
-app = FastAPI()
-
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    version=settings.VERSION,
+    description="API for interacting with the chatbot",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,9 +18,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.post("/api/messages/", response_model=BotResponse)
-async def create_message(user_message: UserMessage) -> BotResponse:
-    return BotResponse(
-        message=str(user_message.message)
-    )
+app.include_router(bot_api.router)
+app.include_router(bot_api.router, prefix="/v1")
+app.include_router(bot_api.router, prefix="/latest")
