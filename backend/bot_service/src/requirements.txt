@@ -1,4 +1,7 @@
-fastapi
-uvicorn
-ipdb
-pydantic
+fastapi==0.115.6
+uvicorn==0.34.0
+ipdb==0.13.13
+pydantic==2.10.5
+chatterbot==1.0.4
+pytz==2024.2
+motor

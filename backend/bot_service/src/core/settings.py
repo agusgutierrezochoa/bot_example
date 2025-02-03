@@ -1,2 +1,6 @@
 PROJECT_NAME = "bot_service"
 VERSION = "1.0.0"
+MONGO_URI = "mongodb://root:root@mongo:27017"
+MONGO_DATABASE_NAME = "chatbot_db"
+MONGO_USER_NAME = "chatbot_db_user"
+MONGO_PASSWORD = "chatbot_db_password"
